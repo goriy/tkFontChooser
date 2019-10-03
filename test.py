@@ -62,6 +62,12 @@ class TestFontChooser(BaseWidgetTest):
                     text='Abcd' * 20, title='Test')
         self.window.update()
 
+    def test_fontchooser_init_only_fixed(self):
+        FontChooser(self.window,
+                    {'family': 'Arial', 'weight': 'bold', 'slant': 'italic'},
+                    text='Abcd' * 20, title='Test', only_fixed=True)
+        self.window.update()
+
     def test_fontchooser_methods(self):
         props = {'family': "TkDefaultFont", 'weight': 'bold', 'size': 27,
                  'slant': 'italic'}
