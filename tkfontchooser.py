@@ -57,7 +57,7 @@ class FontChooser(Toplevel):
     """Font chooser dialog."""
 
     def __init__(self, master, font_dict={}, text="Abcd", title="Font Chooser",
-                 **kwargs):
+                 only_fixed=False, **kwargs):
         """
         Create a new FontChooser instance.
 
@@ -103,8 +103,17 @@ class FontChooser(Toplevel):
         self.configure(bg=bg)
 
         # --- family list
-        self.fonts = list(set(families()))
-        self.fonts.append("TkDefaultFont")
+        if only_fixed:
+            all_families = list(set(families()))
+            self.fonts = []
+            for ffamily in all_families:
+                fnt = Font(family=ffamily)
+                is_fixed = fnt.metrics('fixed')
+                if (is_fixed != 0):
+                    self.fonts.append(ffamily)
+        else:
+            self.fonts = list(set(families()))
+            self.fonts.append("TkDefaultFont")
         self.fonts.sort()
         for i in range(len(self.fonts)):
             self.fonts[i] = self.fonts[i].replace(" ", "\ ")
